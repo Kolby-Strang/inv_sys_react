@@ -1,0 +1,9 @@
+version: '3'
+services:
+  app:
+    image: your-dockerhub-username/inv_sys_react:latest
+    restart: unless-stopped
+    env_file:
+      - inv_sys_react-env
+    ports:
+      - "7045:80"
