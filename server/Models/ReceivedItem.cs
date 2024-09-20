@@ -7,6 +7,4 @@ public class ReceivedItem
   public string ItemId { get; set; }
   public string ReceivingUserId { get; set; }
   public DateTime CreatedAt { get; set; }
-  public DateTime UpdatedAt { get; set; }
-
 }
