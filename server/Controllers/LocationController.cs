@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.SignalR;
+using Microsoft.Extensions.Configuration.UserSecrets;
 
 namespace inv_sys_react.Controllers;
 
@@ -17,11 +18,14 @@ public class LocationController : ControllerBase
     }
 
     [HttpGet]
+    [Authorize]
     public async Task<ActionResult<List<Location>>> GetAllUserLocations()
     {
         try
         {
-            List<Location> locations = await _locationService.GetAllUserLocations();
+            Account user = await _auth0Provider.GetUserInfoAsync<Account>(HttpContext);
+            string userId = user.Id;
+            List<Location> locations = await _locationService.GetAllUserLocations(userId);
             return Ok(locations);
         }
         catch (Exception err)

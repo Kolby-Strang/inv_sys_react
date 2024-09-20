@@ -7,4 +7,7 @@ public class Account
   public string Email { get; set; }
   public string Picture { get; set; }
   public string DefaultLocation { get; set; }
+  public string IsArchived { get; set; }
+  public DateTime CreatedAt { get; set; }
+  public DateTime UpdatedAt { get; set; }
 }
