@@ -2,9 +2,9 @@ namespace inv_sys_react.Models;
 
 public class ReceivedItem
 {
-  public string Id { get; set; }
-  public string LocationId { get; set; }
-  public string ItemId { get; set; }
+  public int Id { get; set; }
+  public int LocationId { get; set; }
+  public int ItemId { get; set; }
   public string ReceivingUserId { get; set; }
   public DateTime CreatedAt { get; set; }
 }
