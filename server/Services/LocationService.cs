@@ -1,3 +1,4 @@
+
 namespace inv_sys_react.Services;
 
 public class LocationService
@@ -9,4 +10,8 @@ public class LocationService
         _repo = repo;
     }
 
+    internal async Task<List<Location>> GetAllUserLocations()
+    {
+        throw new NotImplementedException();
+    }
 }
