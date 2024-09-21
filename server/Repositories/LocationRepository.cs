@@ -11,7 +11,7 @@ public class LocationRepository
         _db = db;
     }
 
-    internal async Task<List<Location>> GetAllUserLocations(string userId)
+    internal List<Location> GetAllUserLocations(string userId)
     {
         string sql = @"
         SELECT
@@ -19,8 +19,16 @@ public class LocationRepository
         loc.*
         FROM permissionTies perm
         JOIN locations loc ON loc.id = perm.locationId
-        WHERE perms.userId = @userId
+        WHERE perm.userId = @userId
         ;";
-        throw new NotImplementedException();
+        List<Location> locations = _db.Query<Location, PermissionTie, Location>(sql, PermLocFlattener, new { userId }).ToList();
+        return locations;
     }
+
+    private Location PermLocFlattener(Location loc, PermissionTie perm)
+    {
+        return loc;
+    }
+
+
 }

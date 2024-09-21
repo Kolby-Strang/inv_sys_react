@@ -1,4 +1,4 @@
--- Active: 1726864325760@@mc.strangkolby.com@3306@PantryTracker
+
 CREATE TABLE IF NOT EXISTS accounts(
   id VARCHAR(255) NOT NULL primary key COMMENT 'primary key',
   createdAt DATETIME DEFAULT CURRENT_TIMESTAMP COMMENT 'Time Created',
@@ -66,7 +66,9 @@ SELECT
   loc.*
   FROM permissionTies perm
   JOIN locations loc ON loc.id = perm.locationId
-  WHERE perm.userId = @userId
+  WHERE perm.userId = '65330f5800fc89b954fa12ed'
+;
+SELECT * FROM locations WHERE creatorId = '65330f5800fc89b954fa12ed'
 ;
 
 INSERT INTO locations ;

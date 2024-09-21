@@ -10,9 +10,9 @@ public class LocationService
         _repo = repo;
     }
 
-    internal async Task<List<Location>> GetAllUserLocations(string userId)
+    internal List<Location> GetAllUserLocations(string userId)
     {
-        List<Location> allUserLocations = await _repo.GetAllUserLocations(userId);
+        List<Location> allUserLocations = _repo.GetAllUserLocations(userId);
         return allUserLocations;
     }
 }

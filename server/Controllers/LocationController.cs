@@ -17,20 +17,4 @@ public class LocationController : ControllerBase
         _locationService = locationService;
     }
 
-    [HttpGet]
-    [Authorize]
-    public async Task<ActionResult<List<Location>>> GetAllUserLocations()
-    {
-        try
-        {
-            Account user = await _auth0Provider.GetUserInfoAsync<Account>(HttpContext);
-            string userId = user.Id;
-            List<Location> locations = await _locationService.GetAllUserLocations(userId);
-            return Ok(locations);
-        }
-        catch (Exception err)
-        {
-            return BadRequest(err.Message);
-        }
-    }
 }
