@@ -1,4 +1,5 @@
 
+
 namespace inv_sys_react.Repositories;
 
 public class LocationRepository
@@ -20,7 +21,6 @@ public class LocationRepository
         JOIN locations loc ON loc.id = perm.locationId
         WHERE perms.userId = @userId
         ;";
-
-
+        throw new NotImplementedException();
     }
 }

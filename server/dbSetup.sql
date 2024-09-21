@@ -61,5 +61,13 @@ CREATE TABLE IF NOT EXISTS receivedItem(
     updatedAt DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
   )default charset utf8mb4 COMMENT'';
 
+SELECT
+  perm.*,
+  loc.*
+  FROM permissionTies perm
+  JOIN locations loc ON loc.id = perm.locationId
+  WHERE perm.userId = @userId
+;
 
+INSERT INTO locations ;
 Drop TABLE ;
