@@ -68,8 +68,7 @@ SELECT
   JOIN locations loc ON loc.id = perm.locationId
   WHERE perm.userId = '65330f5800fc89b954fa12ed'
 ;
-SELECT * FROM locations WHERE creatorId = '65330f5800fc89b954fa12ed'
-;
-
+SELECT * FROM locations WHERE creatorId = '65330f5800fc89b954fa12ed';
+SELECT * FROM locations WHERE id = LAST_INSERT_ID();
 INSERT INTO locations ;
 Drop TABLE ;

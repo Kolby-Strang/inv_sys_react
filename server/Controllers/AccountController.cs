@@ -9,13 +9,13 @@ public class AccountController : ControllerBase
 {
   private readonly AccountService _accountService;
   private readonly Auth0Provider _auth0Provider;
-  private readonly LocationService _locationService;
+  private readonly LocationsService _locationsService;
 
-  public AccountController(AccountService accountService, LocationService locationService, Auth0Provider auth0Provider)
+  public AccountController(AccountService accountService, LocationsService locationsService, Auth0Provider auth0Provider)
   {
     _accountService = accountService;
     _auth0Provider = auth0Provider;
-    _locationService = locationService;
+    _locationsService = locationsService;
   }
 
   [HttpGet]
@@ -39,7 +39,7 @@ public class AccountController : ControllerBase
     try
     {
       Account user = await _auth0Provider.GetUserInfoAsync<Account>(HttpContext);
-      List<PermLoc> locations = _locationService.GetAllUserLocations(user.Id);
+      List<PermLoc> locations = _locationsService.GetAllUserLocations(user.Id);
       return Ok(locations);
     }
     catch (Exception err)

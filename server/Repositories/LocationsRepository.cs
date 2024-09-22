@@ -1,14 +1,31 @@
 
 
+
 namespace inv_sys_react.Repositories;
 
-public class LocationRepository
+public class LocationsRepository
 {
     private readonly IDbConnection _db;
 
-    public LocationRepository(IDbConnection db)
+    public LocationsRepository(IDbConnection db)
     {
         _db = db;
+    }
+
+    internal Location CreateLocation(Location locationInfo)
+    {
+        string sql = @"
+        INSERT INTO locations
+        (name, creatorId)
+        VALUES
+        (@Name, @CreatorId);
+
+        SELECT * FROM locations 
+        WHERE id = LAST_INSERT_ID()
+        ;";
+
+        Location location = _db.Query<Location>(sql, locationInfo).FirstOrDefault();
+        return location;
     }
 
     internal List<PermLoc> GetAllUserLocations(string userId)
