@@ -34,12 +34,12 @@ public class AccountController : ControllerBase
 
   [HttpGet]
   [Route("locations")]
-  public async Task<ActionResult<List<Location>>> GetAllUserLocations()
+  public async Task<ActionResult<List<PermLoc>>> GetAllUserLocations()
   {
     try
     {
       Account user = await _auth0Provider.GetUserInfoAsync<Account>(HttpContext);
-      List<Location> locations = _locationService.GetAllUserLocations(user.Id);
+      List<PermLoc> locations = _locationService.GetAllUserLocations(user.Id);
       return Ok(locations);
     }
     catch (Exception err)

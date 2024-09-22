@@ -17,4 +17,5 @@ public class LocationController : ControllerBase
         _locationService = locationService;
     }
 
+
 }

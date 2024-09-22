@@ -10,9 +10,9 @@ public class LocationService
         _repo = repo;
     }
 
-    internal List<Location> GetAllUserLocations(string userId)
+    internal List<PermLoc> GetAllUserLocations(string userId)
     {
-        List<Location> allUserLocations = _repo.GetAllUserLocations(userId);
+        List<PermLoc> allUserLocations = _repo.GetAllUserLocations(userId);
         return allUserLocations;
     }
 }

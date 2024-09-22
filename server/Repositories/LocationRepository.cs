@@ -11,7 +11,7 @@ public class LocationRepository
         _db = db;
     }
 
-    internal List<Location> GetAllUserLocations(string userId)
+    internal List<PermLoc> GetAllUserLocations(string userId)
     {
         string sql = @"
         SELECT
@@ -21,13 +21,23 @@ public class LocationRepository
         JOIN locations loc ON loc.id = perm.locationId
         WHERE perm.userId = @userId
         ;";
-        List<Location> locations = _db.Query<Location, PermissionTie, Location>(sql, PermLocFlattener, new { userId }).ToList();
+        List<PermLoc> locations = _db.Query<PermissionTie, Location, PermLoc>(sql, PermLocFlattener, new { userId }).ToList();
         return locations;
     }
-
-    private Location PermLocFlattener(Location loc, PermissionTie perm)
+    // THIS IS ALL WRONG AND SHOULD BE CONTAINED WITHIN A PERMISSION TIE SUITE AND ITS ALL BECAUSE OF THE FUCKING QUERY STATEMENT RETURNING THE PERMISSION TIE FIRST AND NOT SECOND.
+    private PermLoc PermLocFlattener(PermissionTie perm, Location loc)
     {
-        return loc;
+        PermLoc fLocation = new PermLoc();
+        fLocation.Id = perm.Id;
+        fLocation.LocationId = loc.Id;
+        fLocation.PermissionLevel = perm.PermissionLevel;
+        fLocation.Name = loc.Name;
+        fLocation.CreatorId = loc.CreatorId;
+        fLocation.IsArchived = loc.IsArchived;
+        fLocation.CreatedAt = loc.CreatedAt;
+        fLocation.UpdatedAt = loc.UpdatedAt;
+
+        return fLocation;
     }
 
 
