@@ -19,13 +19,13 @@ public class LocationsController : ControllerBase
 
     [HttpPost]
     [Authorize]
-    public async Task<ActionResult<Location>> CreateLocation([FromBody] Location locInfo)
+    public async Task<ActionResult<PermLoc>> CreateLocation([FromBody] Location locInfo)
     {
         try
         {
             Account user = await _auth0Provider.GetUserInfoAsync<Account>(HttpContext);
             locInfo.CreatorId = user.Id;
-            Location location = _locationsService.CreateLocation(locInfo);
+            PermLoc location = _locationsService.CreateLocation(locInfo);
             return Ok(location);
         }
         catch (Exception err)

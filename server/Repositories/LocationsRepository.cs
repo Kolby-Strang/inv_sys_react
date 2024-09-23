@@ -2,6 +2,7 @@
 
 
 
+
 namespace inv_sys_react.Repositories;
 
 public class LocationsRepository
@@ -16,8 +17,14 @@ public class LocationsRepository
     internal Location ArchiveLocation(int locationId)
     {
         string sql = @"
-            UPDATE 
-        ;";//WORK HERE
+            UPDATE locations
+            SET
+            isArchived = 1
+            WHERE id = @locationId;
+
+            SELECT * FROM locations
+            WHERE id = @locationId
+        ;";
         return _db.Query<Location>(sql, new { locationId }).FirstOrDefault();
     }
 
@@ -50,7 +57,17 @@ public class LocationsRepository
         List<PermLoc> locations = _db.Query<PermissionTie, Location, PermLoc>(sql, PermLocFlattener, new { userId }).ToList();
         return locations;
     }
-    // THIS IS ALL WRONG AND SHOULD BE CONTAINED WITHIN A PERMISSION TIE SUITE AND ITS ALL BECAUSE OF THE FUCKING QUERY STATEMENT RETURNING THE PERMISSION TIE FIRST AND NOT SECOND.
+
+    internal Location GetLocationById(int locationId)
+    {
+        string sql = @"
+            SELECT * FROM locations
+            WHERE
+            id = @locationId
+        ;";
+        return _db.Query<Location>(sql, new { locationId }).FirstOrDefault();
+    }
+
     private PermLoc PermLocFlattener(PermissionTie perm, Location loc)
     {
         PermLoc fLocation = new PermLoc();
