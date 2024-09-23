@@ -1,6 +1,7 @@
 
 
 
+
 namespace inv_sys_react.Repositories;
 
 public class LocationsRepository
@@ -10,6 +11,14 @@ public class LocationsRepository
     public LocationsRepository(IDbConnection db)
     {
         _db = db;
+    }
+
+    internal Location ArchiveLocation(int locationId)
+    {
+        string sql = @"
+            UPDATE 
+        ;";//WORK HERE
+        return _db.Query<Location>(sql, new { locationId }).FirstOrDefault();
     }
 
     internal Location CreateLocation(Location locationInfo)

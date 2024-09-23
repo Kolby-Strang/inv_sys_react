@@ -33,4 +33,19 @@ public class LocationsController : ControllerBase
             return BadRequest(err.Message);
         }
     }
+    [HttpDelete("{locationId}")]
+    [Authorize]
+    public async Task<ActionResult<Location>> ArchiveLocation(int locationId)
+    {
+        try
+        {
+            Account user = await _auth0Provider.GetUserInfoAsync<Account>(HttpContext);
+            Location location = _locationsService.ArchiveLocation(user.Id, locationId);
+            return Ok(location);
+        }
+        catch (Exception err)
+        {
+            return BadRequest(err.Message);
+        }
+    }
 }
