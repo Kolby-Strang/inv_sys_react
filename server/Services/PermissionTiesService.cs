@@ -20,6 +20,11 @@ public class PermissionTiesService
         PermissionTie permTieInfo = new PermissionTie();
         permTieInfo.LocationId = locationId;
         permTieInfo.UserId = userId;
-        return _repo.GetPermissionTieByLocationAndUserId(permTieInfo);
+        PermissionTie perm = _repo.GetPermissionTieByLocationAndUserId(permTieInfo);
+        if (perm == null)//Check for existence
+        {
+            throw new Exception("Unauthorized. You do not have permission to access this location.");
+        }
+        return perm;
     }
 }

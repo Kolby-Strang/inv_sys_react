@@ -3,6 +3,7 @@
 
 
 
+
 namespace inv_sys_react.Repositories;
 
 public class LocationsRepository
@@ -66,6 +67,20 @@ public class LocationsRepository
             id = @locationId
         ;";
         return _db.Query<Location>(sql, new { locationId }).FirstOrDefault();
+    }
+
+    internal Location UpdateLocation(Location locInfo)
+    {
+        string sql = @"
+            UPDATE locations
+            SET
+            name = @Name
+            WHERE id = @Id;
+
+            SELECT * FROM locations
+            WHERE id = @Id
+        ;";
+        return _db.Query<Location>(sql, locInfo).FirstOrDefault();
     }
 
     private PermLoc PermLocFlattener(PermissionTie perm, Location loc)

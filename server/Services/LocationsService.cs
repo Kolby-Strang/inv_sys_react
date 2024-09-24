@@ -1,3 +1,4 @@
+using System.Reflection;
 using Microsoft.AspNetCore.Http.HttpResults;
 
 namespace inv_sys_react.Services;
@@ -6,31 +7,26 @@ public class LocationsService
 {
     private readonly LocationsRepository _repo;
     private readonly PermissionTiesService _permService;
+    private readonly PermissionLevelSettings _permissionLevel;
 
-    public LocationsService(LocationsRepository repo, PermissionTiesService permService)
+    public LocationsService(LocationsRepository repo, PermissionTiesService permService, PermissionLevelSettings permissionLevelSettings)
     {
         _repo = repo;
         _permService = permService;
+        _permissionLevel = permissionLevelSettings;
     }
 
     internal Location ArchiveLocation(string userId, int locationId)
     {
         Location location = GetLocationById(locationId);
-        if (location == null)//Check for existence
-        {
-            throw new Exception("Location does not exist.");
-        }
         if (location.IsArchived)
         {
             throw new Exception("This location has already been archived");
         }
 
         PermissionTie perms = _permService.GetPermissionTieByLocationAndUserId(userId, locationId);
-        if (perms == null)//Check for existence
-        {
-            throw new Exception("Unauthorized. You do not have permission to edit this location.");
-        }
-        if (perms.PermissionLevel == 0)//Check for perm level
+
+        if (perms.PermissionLevel <= _permissionLevel.ArchiveLocation)//Check for perm level
         {
             return _repo.ArchiveLocation(locationId);
         }
@@ -42,7 +38,12 @@ public class LocationsService
 
     internal Location GetLocationById(int locationId)
     {
-        return _repo.GetLocationById(locationId);
+        Location location = _repo.GetLocationById(locationId);
+        if (location == null)//Check for existence
+        {
+            throw new Exception("Location does not exist.");
+        }
+        return location;
     }
 
     internal PermLoc CreateLocation(Location locInfo)
@@ -75,5 +76,20 @@ public class LocationsService
         fLocation.UpdatedAt = loc.UpdatedAt;
 
         return fLocation;
+    }
+    internal Location UpdateLocation(string userId, int locationId, string name)
+    {
+        PermissionTie perm = _permService.GetPermissionTieByLocationAndUserId(userId, locationId);
+        if (perm.PermissionLevel <= _permissionLevel.UpdateLocation)
+        {
+            Location locInfo = new Location();
+            locInfo.Id = locationId;
+            locInfo.Name = name;
+            return _repo.UpdateLocation(locInfo);
+        }
+        else
+        {
+            throw new Exception("You do not have the proper permission type for this action.");
+        }
     }
 }

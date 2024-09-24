@@ -48,4 +48,20 @@ public class LocationsController : ControllerBase
             return BadRequest(err.Message);
         }
     }
+
+    [HttpPut("{locationId}")]
+    [Authorize]
+    public async Task<ActionResult<Location>> EditLocation(int locationId, [FromBody] Location locInfo)
+    {
+        try
+        {
+            Account user = await _auth0Provider.GetUserInfoAsync<Account>(HttpContext);
+            Location location = _locationsService.UpdateLocation(user.Id, locationId, locInfo.Name);
+            return Ok(location);
+        }
+        catch (Exception err)
+        {
+            return BadRequest(err.Message);
+        }
+    }
 }

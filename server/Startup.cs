@@ -37,6 +37,7 @@ public class Startup
     services.AddScoped<LocationsService>();
     services.AddScoped<PermissionTiesRepository>();
     services.AddScoped<PermissionTiesService>();
+    services.AddScoped<PermissionLevelSettings>();
   }
 
   private void ConfigureCors(IServiceCollection services)
