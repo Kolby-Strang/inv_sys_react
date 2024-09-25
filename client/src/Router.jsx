@@ -21,7 +21,10 @@ export const router = createHashRouter([
       },
       {
         path: "about",
-        element: <AboutPage />,
+        element: 
+        <AuthGuard>
+          <AboutPage />,
+        </AuthGuard>
       },
       {
         path: "account",
